@@ -16,6 +16,8 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
+    'django_filters',
+    'drf_yasg',
     'habits',
     'users',
     'django.contrib.admin',
@@ -111,7 +113,7 @@ REST_FRAMEWORK = {
         "rest_framework.permissions.IsAuthenticated",
     ],
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
-    "PAGE_SIZE": 15
+    "PAGE_SIZE": 5
 }
 
 SWAGGER_SETTINGS = {
@@ -138,3 +140,6 @@ CELERY_ACCEPT_CONTENT = ["json"]
 CELERY_TASK_SERIALIZER = "json"
 CELERY_TIMEZONE = "Europe/Moscow"
 CELERY_ENABLE_UTC = False
+
+PROJECT_VERSION = os.getenv('PROJECT_VERSION', 'v1')
+PROJECT_DESCRIPTION = os.getenv('PROJECT_DESCRIPTION', 'API документация')
