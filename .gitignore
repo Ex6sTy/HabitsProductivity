@@ -17,6 +17,7 @@ staticfiles/
 .venv/
 venv/
 .env.*
+.env/
 
 # VSCode/PyCharm
 .idea/
