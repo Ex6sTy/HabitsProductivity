@@ -6,10 +6,7 @@ from drf_yasg import openapi
 from django.views.generic import RedirectView
 from dotenv import load_dotenv
 import os
-from rest_framework_simplejwt.views import (
-    TokenObtainPairView,
-    TokenRefreshView,
-)
+
 
 load_dotenv()
 

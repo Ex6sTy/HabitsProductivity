@@ -19,6 +19,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'django_filters',
     'drf_yasg',
+    'django_celery_beat',
     'habits',
     'users',
     'django.contrib.admin',
@@ -144,3 +145,5 @@ CELERY_ENABLE_UTC = False
 
 PROJECT_VERSION = os.getenv('PROJECT_VERSION', 'v1')
 PROJECT_DESCRIPTION = os.getenv('PROJECT_DESCRIPTION', 'API документация')
+
+TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
