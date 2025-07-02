@@ -15,5 +15,5 @@ def health_check(request):
 
 urlpatterns = [
     path('health/', health_check),
-    path('', include(router.urls)),  # или 'habits/', если хочешь /api/habits/
+    path('', include(router.urls)),
 ]
