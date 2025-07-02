@@ -6,6 +6,10 @@ from drf_yasg import openapi
 from django.views.generic import RedirectView
 from dotenv import load_dotenv
 import os
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
 
 load_dotenv()
 
@@ -24,5 +28,8 @@ urlpatterns = [
     path('api/', include('habits.urls')),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
-    path('docs/', RedirectView.as_view(url='/swagger/', permanent=False)),  # <---- Вот это
+    path('docs/', RedirectView.as_view(url='/swagger/', permanent=False)),
+    path('auth/jwt/create/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('auth/jwt/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('auth/', include('users.urls')),
 ]

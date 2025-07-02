@@ -1,16 +1,19 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 from .views import HabitViewSet
-from django.http import JsonResponse
 
 
 router = DefaultRouter()
-router.register(r'habits', HabitViewSet, basename='habit')
+router.register(r'', HabitViewSet, basename='habit')
 
+@api_view(['GET'])
 def health_check(request):
-    return JsonResponse({"status": "ok"})
+    return Response({"status": "ok"})
+
 
 urlpatterns = [
     path('health/', health_check),
-    path('', include(router.urls)),
+    path('', include(router.urls)),  # или 'habits/', если хочешь /api/habits/
 ]
