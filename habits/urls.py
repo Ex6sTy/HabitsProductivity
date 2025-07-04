@@ -4,14 +4,14 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .views import HabitViewSet
 
+app_name = 'habits'
 
 router = DefaultRouter()
-router.register(r'', HabitViewSet, basename='habit')
+router.register(r'habits', HabitViewSet, basename='habit')
 
 @api_view(['GET'])
 def health_check(request):
     return Response({"status": "ok"})
-
 
 urlpatterns = [
     path('health/', health_check),

@@ -1,6 +1,7 @@
 from rest_framework import viewsets, permissions, filters
 from rest_framework.response import Response
 from rest_framework.decorators import action
+from django.db.models import Q
 from .models import Habit
 from .serializers import HabitSerializer
 
@@ -15,14 +16,24 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
 class HabitViewSet(viewsets.ModelViewSet):
     serializer_class = HabitSerializer
     permission_classes = [permissions.IsAuthenticated, IsOwnerOrReadOnly]
-    filter_backends = [filters.OrderingFilter]
+    filter_backends = [filters.OrderingFilter, filters.SearchFilter]
     ordering_fields = ['created_at', 'time']
     ordering = ['-created_at']
+    search_fields = ['action', 'place']
 
     def get_queryset(self):
-        return Habit.objects.filter(user=self.request.user)
+        user = self.request.user
+        return Habit.objects.filter(Q(user=user) | Q(is_public=True))
+
+    def get_object(self):
+        obj = super().get_object()
+        self.check_object_permissions(self.request, obj)
+        return obj
 
     def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+    def perform_update(self, serializer):
         serializer.save(user=self.request.user)
 
     @action(
@@ -39,3 +50,4 @@ class HabitViewSet(viewsets.ModelViewSet):
             return self.get_paginated_response(serializer.data)
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
+

@@ -23,6 +23,8 @@ swagger-ui-bundle = "^0.0.9"
 djangorestframework-simplejwt = "^5.5.0"
 django-celery-beat = "^2.8.1"
 python-telegram-bot = "^22.2"
+drf-spectacular = "^0.28.0"
+requests = "^2.32.4"
 
 
 [tool.poetry.group.dev.dependencies]

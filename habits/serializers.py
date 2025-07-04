@@ -23,9 +23,20 @@ class HabitSerializer(serializers.ModelSerializer):
         read_only_fields = ['user', 'created_at']
 
     def validate(self, attrs):
-        instance = Habit(**attrs)
+        attrs = super().validate(attrs)
+        instance = Habit(
+            user=self.context['request'].user,
+            **attrs
+        )
         try:
             instance.clean()
         except DjangoValidationError as e:
-            raise serializers.ValidationError(e.message_dict if hasattr(e, 'message_dict') else e.messages)
+            raise serializers.ValidationError(
+                e.message_dict if hasattr(e, 'message_dict') else {'non_field_errors': e.messages}
+            )
         return attrs
+
+    def create(self, validated_data):
+        validated_data['user'] = self.context['request'].user
+        return super().create(validated_data)
+
