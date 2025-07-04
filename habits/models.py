@@ -19,7 +19,7 @@ class Habit(models.Model):
         blank=True,
         on_delete=models.SET_NULL,
         limit_choices_to={'is_pleasant': True},
-        related_name='pleasant_for'
+        related_name='related_to'
     )
     periodicity = models.PositiveSmallIntegerField(default=1)  # в днях
     reward = models.CharField(max_length=255, blank=True, null=True)
@@ -27,7 +27,12 @@ class Habit(models.Model):
     is_public = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        ordering = ['-created_at']
+
     def clean(self):
+        super().clean()
+
         if self.reward and self.related_habit:
             raise ValidationError("Нельзя одновременно указать вознаграждение и связанную привычку.")
 
@@ -43,4 +48,3 @@ class Habit(models.Model):
     def __str__(self):
         visibility = 'публичная' if self.is_public else 'личная'
         return f"{self.user.email} — {self.action} @ {self.time} ({visibility})"
-
