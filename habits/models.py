@@ -21,7 +21,7 @@ class Habit(models.Model):
         limit_choices_to={'is_pleasant': True},
         related_name='related_to'
     )
-    periodicity = models.PositiveSmallIntegerField(default=1)  # в днях
+    frequency = models.PositiveSmallIntegerField(default=1, help_text="Раз в X дней")
     reward = models.CharField(max_length=255, blank=True, null=True)
     duration = models.PositiveIntegerField(help_text="Время в секундах")
     is_public = models.BooleanField(default=False)
@@ -29,6 +29,8 @@ class Habit(models.Model):
 
     class Meta:
         ordering = ['-created_at']
+        verbose_name = 'Привычка'
+        verbose_name_plural = 'Привычки'
 
     def clean(self):
         super().clean()
@@ -42,7 +44,7 @@ class Habit(models.Model):
         if self.is_pleasant and (self.reward or self.related_habit):
             raise ValidationError("Приятная привычка не может иметь ни вознаграждение, ни связанную привычку.")
 
-        if not 1 <= self.periodicity <= 7:
+        if self.frequency > 7:
             raise ValidationError("Нельзя выполнять привычку реже одного раза в 7 дней.")
 
     def __str__(self):
