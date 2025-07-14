@@ -1,7 +1,10 @@
 from celery import shared_task
-from .models import Habit
 from django.utils import timezone
+
 from bot.telegram_utils import send_telegram_message
+
+from .models import Habit
+
 
 @shared_task
 def send_habit_reminders():
@@ -11,6 +14,5 @@ def send_habit_reminders():
     for habit in habits:
         user = habit.user
         if user.telegram_id:
-            message = f"🔔 Напоминание: пора заняться привычкой «{habit.title}»"
+            message = f"🔔 Напоминание: пора заняться привычкой «{habit.action}»"
             send_telegram_message(user.telegram_id, message)
-
