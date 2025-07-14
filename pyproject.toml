@@ -25,6 +25,9 @@ django-celery-beat = "^2.8.1"
 python-telegram-bot = "^22.2"
 drf-spectacular = "^0.28.0"
 requests = "^2.32.4"
+django-filter = "^25.1"
+black = "^25.1.0"
+isort = "^6.0.1"
 
 
 [tool.poetry.group.dev.dependencies]
